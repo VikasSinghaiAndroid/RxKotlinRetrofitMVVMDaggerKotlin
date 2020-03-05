@@ -7,14 +7,12 @@ import android.util.Log
 import android.util.Log.d
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rxjavaretrofitkotlin.R
 import com.example.rxjavaretrofitkotlin.model.DataProperty
 import com.example.rxjavaretrofitkotlin.model.Row
 import com.example.rxjavaretrofitkotlin.ui.adapter.DataListAdapter
-import com.example.rxjavaretrofitkotlin.utils.ViewModelProviderFactory
 import com.example.rxjavaretrofitkotlin.viewmodel.MainActivityViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.Observer
@@ -27,10 +25,8 @@ class MainActivity : DaggerAppCompatActivity(), DataListAdapter.Interaction {
 
     private var dataListAdapter: DataListAdapter? = null
 
-    private lateinit var mainActivityViewModel: MainActivityViewModel
-
     @Inject
-    lateinit var viewModelProviderFactory: ViewModelProviderFactory
+    lateinit var mainActivityViewModel: MainActivityViewModel
 
     private lateinit var dataList: List<Row>
 
@@ -43,7 +39,6 @@ class MainActivity : DaggerAppCompatActivity(), DataListAdapter.Interaction {
         d("MainActivity", "Inside onCreateView")
         dataList = mutableListOf()
 
-        setupViewModel()
         initRecyclerView()
         observerLiveData()
         setUpPullDownRefresh()
@@ -69,7 +64,7 @@ class MainActivity : DaggerAppCompatActivity(), DataListAdapter.Interaction {
 
     private fun observerLiveData() {
         d("MainActivity", "Inside observerLiveData")
-        val dataFromServer = mainActivityViewModel.getDataFromServer()
+        val dataFromServer = mainActivityViewModel.showDataFromApi()
         if (dataFromServer == null) {
             progressBar?.visibility = View.GONE
             initRecyclerView()
@@ -117,20 +112,12 @@ class MainActivity : DaggerAppCompatActivity(), DataListAdapter.Interaction {
         )
     }
 
-    private fun setupViewModel() {
-        d("MainActivity", "Inside setupViewModel")
-        mainActivityViewModel =
-            ViewModelProvider(this, viewModelProviderFactory).get(MainActivityViewModel::class.java)
-    }
-
     override fun onItemSelected(position: Int, item: Row) {
         d("MainActivity", "Item clicked : position : $position  and Item : $item")
-        val intent= Intent(this,DetailActivity::class.java)
-        intent.putExtra("itemRows",item)
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("itemRows", item)
         intent.putExtra("mainTitle", title)
         startActivity(intent)
-        //val navDirection = ListFragmentDirections.actionListFragmentToDetailFragment(item, title)
-        //findNavController().navigate(navDirection)
     }
 }
 

@@ -1,10 +1,9 @@
-package com.example.samplewithall.utils
+package com.example.rxjavaretrofitkotlin.utils
 
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.os.Build
 import android.widget.Toast
 import javax.inject.Inject

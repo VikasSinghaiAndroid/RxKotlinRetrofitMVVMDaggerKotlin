@@ -39,11 +39,11 @@ class DetailActivity : DaggerAppCompatActivity() {
                 .placeholder(R.drawable.loading_animation)
                 .into(profile, object : Callback {
                     override fun onSuccess() {
-                        d("DetailActivity","Picasso image loading success")
+                        d("DetailActivity", "Picasso image loading success")
                     }
 
                     override fun onError(e: Exception?) {
-                        d("DetailActivity","Picasso image loading error : ${e?.message}")
+                        d("DetailActivity", "Picasso image loading error : ${e?.message}")
                     }
                 })
         }

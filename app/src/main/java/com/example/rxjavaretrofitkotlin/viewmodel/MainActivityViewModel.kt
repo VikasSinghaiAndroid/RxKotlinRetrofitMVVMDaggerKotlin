@@ -1,23 +1,20 @@
 package com.example.rxjavaretrofitkotlin.viewmodel
 
-import android.util.Log.d
-import androidx.lifecycle.ViewModel
 import com.example.rxjavaretrofitkotlin.model.DataProperty
-import com.example.rxjavaretrofitkotlin.repository.RetrofitManager
-import com.example.samplewithall.utils.CommonUtils
+import com.example.rxjavaretrofitkotlin.repository.Repository
+import com.example.rxjavaretrofitkotlin.utils.CommonUtils
+import com.example.rxjavaretrofitkotlin.utils.SchedulerProvider
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor(
-    private val retrofitManager: RetrofitManager, private val commonUtils: CommonUtils
-) : ViewModel() {
+class MainActivityViewModel(
+    private val repository: Repository,
+    private val schedulerProvider: SchedulerProvider, private val commonUtils: CommonUtils
+) {
 
-    fun getDataFromServer(): Observable<DataProperty>? {
-        d("MainActivityViewModel", "ViewModel Get Data from server")
+    fun showDataFromApi(): Observable<DataProperty>? {
         return if (commonUtils.isInternetAvailable())
-            retrofitManager.fetchDataFromServer()
+            repository.getDataFromApi().compose(schedulerProvider.getSchedulersForObservable())
         else {
-            d("MainActivityViewModel", "Internet is not available")
             commonUtils.toastShow("Please check your internet connection !!!")
             return null
         }

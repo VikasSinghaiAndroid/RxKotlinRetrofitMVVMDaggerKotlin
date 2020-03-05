@@ -11,8 +11,8 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBuildersModule {
 
-    @ContributesAndroidInjector(modules = [ViewModelModule::class])
-    abstract fun contributeMainActivity(): MainActivity
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
+    abstract fun bindMainActivity(): MainActivity
 
     @ContributesAndroidInjector()
     abstract fun contributeDetailedActivity(): DetailActivity
