@@ -1,0 +1,14 @@
+package com.example.rxjavaretrofitkotlin.di.module
+
+import androidx.lifecycle.ViewModelProvider
+import com.example.rxjavaretrofitkotlin.utils.ViewModelProviderFactory
+import dagger.Binds
+import dagger.Module
+
+
+@Module
+abstract class ViewModelFactoryModule {
+
+    @Binds
+    abstract fun bindViewModelFactory(viewModelProvideFactory: ViewModelProviderFactory): ViewModelProvider.Factory
+}
